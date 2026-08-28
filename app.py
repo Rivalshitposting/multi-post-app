@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-st.set_page_config(page_title="RvlzZ Multi-Posting", page_icon="https://hook.eu1.make.com/nqumlktukevpysnjc4q18org9ylcnc23", layout="centered")
+st.set_page_config(WEBHOOK_URL=" RvlzZ Multi-Posting", page_icon="https://hook.eu1.make.com/nqumlktukevpysnjc4q18org9ylcnc23", layout="centered")
 
 WEBHOOK_URL = "https://hook.eu1.make.com/nqumlktukevpysnjc4q18org9ylcnc23"
 
