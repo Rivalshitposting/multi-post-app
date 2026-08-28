@@ -53,7 +53,7 @@ if submitted:
     elif not content.strip():
         st.error("Isi konten tidak boleh kosong!")
     else:
-        WEBHOOK_URL = "https://hook.eu1.make.com/YOUR_WEBHOOK_URL_HERE"
+        WEBHOOK_URL = "https://hook.eu1.make.com/nqumlktukevpysnjc4q18org9ylcnc23"
         
         payload = {
             "email_pengirim": user_email,
