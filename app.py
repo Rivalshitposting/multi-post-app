@@ -1,19 +1,19 @@
 import streamlit as st
 import requests
 
-# Pengaturan halaman (Tanpa emoji HP)
+# Pengaturan halaman
 st.set_page_config(page_title="Multi-Post Sosial Media", layout="centered")
 
-# --- LINK GAMBAR KUCING BIRU PETIR ---
-CAT_LOGO_URL = "https://raw.githubusercontent.com/Rivalshitposting/multi-post-app/main/kucing.jpg"
+# Gambar default yang dijamin bisa dibuka
+CAT_LOGO_URL = "https://picsum.photos/400/400"
 
-# Menu Samping / Sidebar (Foto Profil & Login)
+# Menu Samping / Sidebar
 with st.sidebar:
-    st.image(CAT_LOGO_URL, use_column_width=True)
+    st.image(CAT_LOGO_URL, use_container_width=True)
     st.header("🔑 Otorisasi Pribadi")
     user_email = st.text_input("Masukkan Email Kamu:")
 
-# Judul Utama Aplikasi (Bersih tanpa emoji)
+# Judul Utama Aplikasi
 st.title("Aplikasi Multi-Post Pribadi")
 st.subheader("Kirim konten ke semua media sosialmu sekaligus secara gratis!")
 
