@@ -1,90 +1,103 @@
 import streamlit as st
 import requests
 
-st.set_page_config(page_title="Multi-Post Pro Dashboard", page_icon="", layout="centered")
+st.set_page_config(page_title="Multi-Post Manager", page_icon="🐱", layout="centered")
 
 WEBHOOK_URL = "https://hook.eu1.make.com/nqumlktukevpysnjc4q18org9ylcnc23"
 
-# --- SISTEM LOGIN ---
+# --- HALAMAN UTAMA / LOGIN (DENGAN LOGO KUCING) ---
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
 if not st.session_state.logged_in:
-    st.title(" Login Dashboard Multi-Post")
-    user_email = st.text_input("Alamat Email")
-    user_pass = st.text_input("Kata Sandi", type="password")
+    st.markdown("<h1 style='text-align: center;'>🐱</h1>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center;'>Multi-Post Manager</h2>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: gray;'>Kelola dan publikasikan konten gratis ke seluruh media sosial secara serentak.</p>", unsafe_allow_html=True)
     
-    if st.button("Masuk ke Aplikasi"):
-        if user_email and user_pass:
+    st.write("---")
+    col_fb, col_ig = st.columns(2)
+    with col_fb:
+        if st.button("Masuk dengan Facebook", use_container_width=True):
             st.session_state.logged_in = True
-            st.session_state.user_email = user_email
+            st.session_state.user_email = "facebook_user@login"
             st.rerun()
-        else:
-            st.error("Email dan Kata Sandi wajib diisi!")
+    with col_ig:
+        if st.button("Masuk dengan Instagram", use_container_width=True):
+            st.session_state.logged_in = True
+            st.session_state.user_email = "instagram_user@login"
+            st.rerun()
+            
+    st.markdown("<p style='text-align: center; color: gray; margin-top: 10px;'>Atau gunakan email aktif</p>", unsafe_allow_html=True)
+    
+    with st.form("login_email_form"):
+        user_email = st.text_input("Alamat Email")
+        submit_login = st.form_submit_button("Masuk dengan Email", use_container_width=True)
+        
+        if submit_login:
+            if user_email and "@" in user_email:
+                st.session_state.logged_in = True
+                st.session_state.user_email = user_email
+                st.rerun()
+            else:
+                st.error("Masukkan alamat email yang valid.")
 
-# --- DASHBOARD UTAMA MULTI-POST ---
+# --- DASHBOARD UTAMA SETELAH MASUK ---
 else:
-    st.sidebar.write(f" Akun Terhubung: **{st.session_state.user_email}**")
-    if st.sidebar.button("Keluar (Logout)"):
+    st.sidebar.markdown(f"👤 **{st.session_state.user_email}**")
+    if st.sidebar.button("Keluar (Logout)", use_container_width=True):
         st.session_state.logged_in = False
         st.rerun()
 
-    st.title(" Pengirim Konten Multi-Platform")
-    st.caption("Posting sekali ke seluruh media sosial lengkap dengan Tagar, Lokasi & Audio.")
+    st.title("Buat Postingan Baru")
+    st.caption("Pilih jaringan target, masukkan konten, dan publikasikan secara serentak ke semua platform.")
 
-    # 1. PILIH SOSIAL MEDIA TARGET
-    st.subheader("1. Pilih Media Sosial Tujuan")
-    col1, col2 = st.columns(2)
-    with col1:
-        target_ig = st.checkbox(" Instagram (Feed / Reels)", value=True)
-        target_fb = st.checkbox(" Facebook Page / Profile", value=True)
-        target_threads = st.checkbox(" Threads", value=True)
-    with col2:
-        target_tiktok = st.checkbox(" TikTok", value=True)
-        target_yt_short = st.checkbox(" YouTube Shorts", value=True)
-        target_yt_long = st.checkbox(" YouTube Video Panjang", value=False)
-        target_yt_community = st.checkbox(" YouTube Post Komunitas (Foto)", value=False)
+    # 1. Pilih Platform Target
+    st.subheader("1. Pilih Jaringan Sosial")
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        ig = st.checkbox("Instagram", value=True)
+        fb = st.checkbox("Facebook", value=True)
+    with c2:
+        tt = st.checkbox("TikTok", value=True)
+        threads = st.checkbox("Threads", value=True)
+    with c3:
+        yt_short = st.checkbox("YT Shorts", value=True)
+        yt_long = st.checkbox("YT Video", value=False)
 
     st.divider()
 
-    # 2. DETAIL POSTINGAN
-    st.subheader("2. Detail Konten")
-    judul = st.text_input("Judul Postingan / Video (Khusus YouTube/FB)", placeholder="Contoh: Tutorial Terbaru")
-    pesan = st.text_area("Deskripsi / Caption Utama", placeholder="Tulis caption postinganmu di sini...")
+    # 2. Konten dan Detail
+    st.subheader("2. Konten & Detail")
+    judul = st.text_input("Judul / Topik Postingan", placeholder="Contoh: Video Terbaru Hari Ini")
+    pesan = st.text_area("Tulis Caption...", placeholder="Tulis deskripsi atau teks postingan di sini...")
     
-    col_tag, col_loc = st.columns(2)
-    with col_tag:
-        hashtags = st.text_input(" Tagar / Hashtags", placeholder="#viral #fyp #content")
-    with col_loc:
-        lokasi = st.text_input(" Lokasi", placeholder="Contoh: Jakarta, Indonesia")
+    col_h, col_l = st.columns(2)
+    with col_h:
+        hashtags = st.text_input("Tagar (#)", placeholder="#fyp #viral")
+    with col_l:
+        lokasi = st.text_input("Lokasi", placeholder="Nama Kota")
 
     st.divider()
 
-    # 3. UNGGAH MEDIA & AUDIO DARI GALERI HP
-    st.subheader("3. Unggah Media & Audio (Bebas Hak Cipta)")
-    uploaded_photo = st.file_uploader(" Upload Foto (JPG, PNG)", type=["jpg", "jpeg", "png"])
-    uploaded_short = st.file_uploader(" Upload Video Pendek / Reels / TikTok (MP4)", type=["mp4", "mov"])
-    uploaded_long_video = st.file_uploader(" Upload Video Panjang YouTube (MP4, MKV)", type=["mp4", "mkv", "avi"])
-    
-    # Fitur Musik Bebas Hak Cipta
-    uploaded_audio = st.file_uploader("🎵 Upload Musik Backsound / MP3 (Gunakan No-Copyright Audio)", type=["mp3", "wav", "m4a"])
-    st.caption(" Catatan Hak Cipta: Gunakan file MP3 bebas hak cipta agar video/foto tidak di-banned atau diklaim hak cipta oleh platform.")
+    # 3. Berkas Lampiran (Foto, Video, Musik)
+    st.subheader("3. Berkas Lampiran")
+    uploaded_photo = st.file_uploader("Upload Foto", type=["jpg", "jpeg", "png"])
+    uploaded_video = st.file_uploader("Upload Video / Reels / Shorts", type=["mp4", "mov"])
+    uploaded_audio = st.file_uploader("Upload Musik / Audio (Opsional)", type=["mp3", "wav"])
 
     st.divider()
 
-    # 4. TOMBOL PUBLISH SEKALIGUS
-    if st.button(" Publish ke Semua Sosial Media Target"):
+    # 4. Tombol Publikasi
+    if st.button("Publikasikan Sekarang", use_container_width=True):
         if not pesan:
-            st.error("Pesan / Caption tidak boleh kosong!")
+            st.error("Caption tidak boleh kosong.")
         else:
-            with st.spinner("Memproses media dan audio ke Make.com..."):
+            with st.spinner("Mengirim data ke peladen otomatisasi..."):
                 files = {}
                 if uploaded_photo:
                     files["photo"] = (uploaded_photo.name, uploaded_photo.getvalue(), uploaded_photo.type)
-                if uploaded_short:
-                    files["video_short"] = (uploaded_short.name, uploaded_short.getvalue(), uploaded_short.type)
-                if uploaded_long_video:
-                    files["video_long"] = (uploaded_long_video.name, uploaded_long_video.getvalue(), uploaded_long_video.type)
+                if uploaded_video:
+                    files["video"] = (uploaded_video.name, uploaded_video.getvalue(), uploaded_video.type)
                 if uploaded_audio:
                     files["audio"] = (uploaded_audio.name, uploaded_audio.getvalue(), uploaded_audio.type)
 
@@ -94,20 +107,19 @@ else:
                     "pesan": pesan,
                     "hashtags": hashtags,
                     "lokasi": lokasi,
-                    "target_instagram": target_ig,
-                    "target_facebook": target_fb,
-                    "target_threads": target_threads,
-                    "target_tiktok": target_tiktok,
-                    "target_youtube_shorts": target_yt_short,
-                    "target_youtube_long": target_yt_long,
-                    "target_youtube_community": target_yt_community
+                    "target_instagram": ig,
+                    "target_facebook": fb,
+                    "target_tiktok": tt,
+                    "target_threads": threads,
+                    "target_youtube_shorts": yt_short,
+                    "target_youtube_long": yt_long
                 }
 
                 try:
                     res = requests.post(WEBHOOK_URL, data=payload, files=files if files else None)
                     if res.status_code == 200:
-                        st.success(" Berhasil! Postingan beserta caption, tagar, lokasi, dan audio sedang diproses.")
+                        st.success("Berhasil! Postingan sedang diproses untuk diterbitkan ke semua platform.")
                     else:
-                        st.error(" Gagal terhubung ke Make.com.")
+                        st.error("Gagal mengirim data ke server.")
                 except Exception as e:
                     st.error(f"Terjadi kesalahan: {e}")
