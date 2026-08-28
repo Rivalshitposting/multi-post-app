@@ -13,10 +13,10 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
 if not st.session_state.logged_in:
-    # Menampilkan Foto Kucing dengan Lebar yang Pas
+    # Menampilkan Foto Kucing dengan Parameter Terbaru
     col_img1, col_img2, col_img3 = st.columns([1, 1.2, 1])
     with col_img2:
-        st.image(CAT_IMAGE_URL, use_column_width=True)
+        st.image(CAT_IMAGE_URL, use_container_width=True)
     
     st.markdown("<h2 style='text-align: center; font-weight: bold;'>Rival Multi Shitpost</h2>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; color: gray;'>Kelola dan publikasikan konten gratis ke seluruh media sosial secara serentak.</p>", unsafe_allow_html=True)
