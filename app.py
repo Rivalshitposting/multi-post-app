@@ -1,17 +1,31 @@
 import streamlit as st
 import requests
 
-RvlzZ Multi-Posting"https://hook.eu1.make.com/nqumlktukevpysnjc4q18org9ylcnc23", layout="centered")
+st.set_page_config(page_title="Rival Multi Shitpost", page_icon="🐱", layout="centered")
 
 WEBHOOK_URL = "https://hook.eu1.make.com/nqumlktukevpysnjc4q18org9ylcnc23"
 
-# --- HALAMAN UTAMA / LOGIN (DENGAN LOGO KUCING) ---
+# --- URL GAMBAR PROFIL KUCING (Ubah tanda kutip di bawah dengan link gambar kamu setelah di-upload) ---
+CAT_LOGO_URL = "https://postimg.cc/nsPFXJtM"
+
+# --- HALAMAN UTAMA / LOGIN ---
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
 if not st.session_state.logged_in:
-    st.markdown("<h1 style='text-align: center;'>🐱</h1>", unsafe_allow_html=True)
-    st.markdown("<h2 style='text-align: center;'>Multi-Post Manager</h2>", unsafe_allow_html=True)
+    # Desain Profil Bundar dengan Latar Belakang Biru Tua
+    st.markdown(
+        f"""
+        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+            <div style="width: 120px; height: 120px; border-radius: 50%; background-color: #1e3a8a; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.2);">
+                <img src="{CAT_LOGO_URL}" style="width: 100%; height: 100%; object-fit: cover;" alt="Logo Kucing">
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    st.markdown("<h2 style='text-align: center; font-weight: bold;'>Rival Multi Shitpost</h2>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; color: gray;'>Kelola dan publikasikan konten gratis ke seluruh media sosial secara serentak.</p>", unsafe_allow_html=True)
     
     st.write("---")
