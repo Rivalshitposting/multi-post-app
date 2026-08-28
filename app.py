@@ -6,7 +6,7 @@ st.set_page_config(page_title="Rival Multi Shitpost", page_icon="🐱", layout="
 WEBHOOK_URL = "https://hook.eu1.make.com/nqumlktukevpysnjc4q18org9ylcnc23"
 
 # --- URL GAMBAR PROFIL KUCING (Ubah tanda kutip di bawah dengan link gambar kamu setelah di-upload) ---
-CAT_LOGO_URL = "https://postimg.cc/nsPFXJtM"
+CAT_LOGO_URL = "[url=https://postimg.cc/nsPFXJtM][img]https://i.postimg.cc/nsPFXJtM/IMG-20260828-043405.jpg[/img][/url]"
 
 # --- HALAMAN UTAMA / LOGIN ---
 if "logged_in" not in st.session_state:
