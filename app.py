@@ -1,23 +1,32 @@
 import streamlit as st
 import requests
 
-# Pengaturan halaman
-st.set_page_config(page_title="Multi-Post Sosial Media", layout="centered")
+# Pengaturan Halaman
+st.set_page_config(page_title="Rival Multi-Shitposting", layout="centered")
 
-# Gambar default yang dijamin bisa dibuka
-CAT_LOGO_URL = "https://picsum.photos/400/400"
+# LINK FOTO KUCING BIRU MILIKMU
+CAT_LOGO_URL = "https://i.postimg.cc/76xfQHs1/IMG-20260828-043405.jpg"
 
-# Menu Samping / Sidebar
+# --- SIDEBAR (FOTO PROFIL & LOGIN) ---
 with st.sidebar:
     st.image(CAT_LOGO_URL, use_container_width=True)
-    st.header("🔑 Otorisasi Pribadi")
+    st.header("Otorisasi & Account")
+    
     user_email = st.text_input("Masukkan Email Kamu:")
+    
+    st.markdown("---")
+    st.subheader("Hubungkan Akun Medsos")
+    
+    if st.button("Login dengan Instagram"):
+        st.info("Mengarahkan ke halaman izin Instagram...")
+        
+    if st.button("Login dengan TikTok"):
+        st.info("Mengarahkan ke halaman izin TikTok...")
 
-# Judul Utama Aplikasi
-st.title("Aplikasi Multi-Post Pribadi")
+# --- HALAMAN UTAMA ---
+st.title("Rival Multi-Shitposting")
 st.subheader("Kirim konten ke semua media sosialmu sekaligus secara gratis!")
 
-# Form Pengiriman Postingan
 with st.form("multi_post_form"):
     content = st.text_area("Tulis pesan / deskripsi konten:", height=150, placeholder="Tulis postinganmu di sini...")
     media_url = st.text_input("Link Foto/Video (Opsional):", placeholder="https://link-gambar-kamu.com/foto.jpg")
@@ -35,9 +44,9 @@ with st.form("multi_post_form"):
         post_pin = st.checkbox("Pinterest", value=False)
         post_threads = st.checkbox("Threads", value=False)
         
-    submitted = st.form_submit_button("🚀 Publish Postingan")
+    submitted = st.form_submit_button("Publish Postingan")
 
-# Proses saat tombol Publish diklik
+# PROSES PENGIRIMAN
 if submitted:
     if not user_email:
         st.error("Silakan masukkan email kamu di menu samping (sidebar) terlebih dahulu!")
@@ -64,8 +73,8 @@ if submitted:
             try:
                 response = requests.post(WEBHOOK_URL, json=payload)
                 if response.status_code == 200:
-                    st.success("✅ Postingan berhasil dikirim!")
+                    st.success("Postingan berhasil dikirim!")
                 else:
-                    st.warning("⚠️ Berhasil diproses oleh aplikasi web.")
+                    st.warning("Berhasil diproses oleh aplikasi web.")
             except Exception as e:
                 st.error(f"Gagal menghubungkan ke server webhook: {e}")
