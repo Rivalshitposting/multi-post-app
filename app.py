@@ -13,7 +13,6 @@ if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
 
 if not st.session_state.logged_in:
-    # Menampilkan Foto Kucing dengan Parameter Terbaru
     col_img1, col_img2, col_img3 = st.columns([1, 1.2, 1])
     with col_img2:
         st.image(CAT_IMAGE_URL, use_container_width=True)
@@ -86,11 +85,13 @@ else:
 
     st.divider()
 
-    # 3. Berkas Lampiran (Foto, Video, Musik)
-    st.subheader("3. Berkas Lampiran")
-    uploaded_photo = st.file_uploader("Upload Foto", type=["jpg", "jpeg", "png"])
-    uploaded_video = st.file_uploader("Upload Video / Reels / Shorts", type=["mp4", "mov"])
-    uploaded_audio = st.file_uploader("Upload Musik / Audio (Opsional)", type=["mp3", "wav"])
+    # 3. KOTAK UPLOAD TUNGGAL (Bisa Foto, Video, atau Reels)
+    st.subheader("3. Unggah Media (Foto / Video / Reels)")
+    uploaded_media = st.file_uploader(
+        "Pilih file media dari perangkat Anda", 
+        type=["jpg", "jpeg", "png", "mp4", "mov"]
+    )
+    st.caption("💡 Sistem akan otomatis mendeteksi apakah file Anda berupa foto atau video untuk dikirim ke seluruh platform.")
 
     st.divider()
 
@@ -101,12 +102,12 @@ else:
         else:
             with st.spinner("Mengirim data ke peladen otomatisasi..."):
                 files = {}
-                if uploaded_photo:
-                    files["photo"] = (uploaded_photo.name, uploaded_photo.getvalue(), uploaded_photo.type)
-                if uploaded_video:
-                    files["video"] = (uploaded_video.name, uploaded_video.getvalue(), uploaded_video.type)
-                if uploaded_audio:
-                    files["audio"] = (uploaded_audio.name, uploaded_audio.getvalue(), uploaded_audio.type)
+                if uploaded_media:
+                    # Menentukan apakah file yang di-upload berupa gambar atau video
+                    if uploaded_media.type in ["image/jpeg", "image/png", "image/jpg"]:
+                        files["media"] = (uploaded_media.name, uploaded_media.getvalue(), uploaded_media.type)
+                    else:
+                        files["media"] = (uploaded_media.name, uploaded_media.getvalue(), uploaded_media.type)
 
                 payload = {
                     "email": st.session_state.user_email,
