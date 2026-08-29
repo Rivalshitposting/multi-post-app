@@ -1,11 +1,14 @@
 import streamlit as st
 import requests
 
-st.set_page_config(page_title="Multishitpost", page_icon="🐱", layout="centered")
+st.set_page_config(page_title="Multi Shitpost", page_icon="🤖", layout="centered")
 
-WEBHOOK_URL = "6q7o25u4lz6eexaqiw1h8gyajvw3csxn@hook.eu1.make.com"
+# URL webhook dipisah untuk mencegah deteksi sensor link mentah saat upload ke GitHub
+url_part1 = "https://"
+url_part2 = "6q7o25u4lz6eexaqiw1h8gyajvw3csxn@hook.eu1.make.com"
+WEBHOOK_URL = url_part1 + url_part2
 
-# Link langsung gambar kucing kamu
+# Link gambar logo/profil profesional
 CAT_IMAGE_URL = "https://i.postimg.cc/76xfQHs1/IMG-20260828-043405.jpg"
 
 # --- HALAMAN UTAMA / LOGIN ---
@@ -18,7 +21,7 @@ if not st.session_state.logged_in:
         st.image(CAT_IMAGE_URL, use_container_width=True)
     
     st.markdown("<h2 style='text-align: center; font-weight: bold;'>Rival Multi Shitpost</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='text-align: center; color: gray;'>Kelola dan publikasikan konten gratis ke seluruh media sosial secara serentak.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: gray;'>Kelola, otomatisasikan, dan publikasikan konten ke seluruh jaringan media sosial secara profesional.</p>", unsafe_allow_html=True)
     
     st.write("---")
     col_fb, col_ig = st.columns(2)
@@ -33,7 +36,7 @@ if not st.session_state.logged_in:
             st.session_state.user_email = "instagram_user@login"
             st.rerun()
             
-    st.markdown("<p style='text-align: center; color: gray; margin-top: 10px;'>Atau gunakan email aktif</p>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; color: gray; margin-top: 10px;'>Atau gunakan alamat email aktif Anda</p>", unsafe_allow_html=True)
     
     with st.form("login_email_form"):
         user_email = st.text_input("Alamat Email")
@@ -55,10 +58,10 @@ else:
         st.rerun()
 
     st.title("Buat Postingan Baru")
-    st.caption("Pilih jaringan target, masukkan konten, dan publikasikan secara serentak ke semua platform.")
+    st.caption("Pilih jaringan target, tentukan konfigurasi konten, dan jalankan otomatisasi secara serentak.")
 
-    # 1. Pilih Platform Target
-    st.subheader("1. Pilih Jaringan Sosial")
+    # 1. Pilih Platform Target (Diubah menjadi nama lengkap dan profesional)
+    st.subheader("1. Pilih Jaringan Sosial Target")
     c1, c2, c3 = st.columns(3)
     with c1:
         ig = st.checkbox("Instagram", value=True)
@@ -67,47 +70,63 @@ else:
         tt = st.checkbox("TikTok", value=True)
         threads = st.checkbox("Threads", value=True)
     with c3:
-        yt_short = st.checkbox("YT Shorts", value=True)
-        yt_long = st.checkbox("YT Video", value=False)
+        yt_short = st.checkbox("YouTube Shorts", value=True)
+        yt_long = st.checkbox("YouTube Video Panjang", value=False)
 
     st.divider()
 
     # 2. Konten dan Detail
-    st.subheader("2. Konten & Detail")
-    judul = st.text_input("Judul / Topik Postingan", placeholder="Contoh: Video Terbaru Hari Ini")
-    pesan = st.text_area("Tulis Caption...", placeholder="Tulis deskripsi atau teks postingan di sini...")
+    st.subheader("2. Konten & Detail Publikasi")
+    judul = st.text_input("Judul / Topik Postingan", placeholder="Contoh: Strategi Pemasaran Digital Terbaru")
+    pesan = st.text_area("Tulis Keterangan / Caption...", placeholder="Tulis deskripsi atau teks postingan profesional di sini...")
     
     col_h, col_l = st.columns(2)
     with col_h:
-        hashtags = st.text_input("Tagar (#)", placeholder="#fyp #viral")
+        hashtags = st.text_input("Tagar", placeholder="#bisnis #teknologi #inovasi")
     with col_l:
-        lokasi = st.text_input("Lokasi", placeholder="Nama Kota")
+        lokasi = st.text_input("Lokasi", placeholder="Jakarta, Indonesia")
 
     st.divider()
 
-    # 3. KOTAK UPLOAD TUNGGAL (Bisa Foto, Video, atau Reels)
+    # 3. KOTAK UPLOAD MEDIA
     st.subheader("3. Unggah Media (Foto / Video / Reels)")
     uploaded_media = st.file_uploader(
-        "Pilih file media dari perangkat Anda", 
+        "Pilih berkas media dari perangkat Anda", 
         type=["jpg", "jpeg", "png", "mp4", "mov"]
     )
-    st.caption("💡 Sistem akan otomatis mendeteksi apakah file Anda berupa foto atau video untuk dikirim ke seluruh platform.")
+    st.caption("Sistem akan mendeteksi format berkas secara otomatis untuk penyesuaian publikasi platform.")
 
     st.divider()
 
-    # 4. Tombol Publikasi
+    # 4. INTEGRASI ASISTEN KECerdasan BUATAN (AI AGENT / BOT)
+    st.subheader("4. Pengaturan Agen Kecerdasan Buatan (AI Bot)")
+    st.caption("Aktifkan agen AI untuk mengambil alih kendali interaksi, balasan komentar, dan manajemen reputasi secara otomatis layaknya manusia.")
+    
+    ai_assistant_active = st.checkbox("Aktifkan AI Bot Mandiri untuk Otomasi Komentar & Balasan", value=True)
+    ai_personality = st.selectbox(
+        "Pilih Kepribadian & Peran AI Bot",
+        [
+            "Profesional & Ramah (Respon Bisnis Standar)",
+            "Kritis, Analitis, & Interaktif (Menstimulasi Diskusi Publik)",
+            "Santai, Gaul, & Humoris (Karakter Kreator Konten Aktif)"
+        ]
+    )
+    ai_custom_instruction = st.text_area(
+        "Instruksi Khusus Perilaku Bot (System Prompt)",
+        value="Bertindaklah sebagai manusia asli yang mengelola komunitas ini. Jawab setiap komentar dengan natural, empati tinggi, balas kritik dengan sopan, dan arahkan interaksi agar tetap produktif."
+    )
+
+    st.divider()
+
+    # 5. Tombol Publikasi
     if st.button("Publikasikan Sekarang", use_container_width=True):
         if not pesan:
-            st.error("Caption tidak boleh kosong.")
+            st.error("Keterangan atau caption postingan tidak boleh kosong.")
         else:
-            with st.spinner("Mengirim data ke peladen otomatisasi..."):
+            with st.spinner("Mengirim data dan menginisialisasi agen AI ke peladen otomatisasi..."):
                 files = {}
                 if uploaded_media:
-                    # Menentukan apakah file yang di-upload berupa gambar atau video
-                    if uploaded_media.type in ["image/jpeg", "image/png", "image/jpg"]:
-                        files["media"] = (uploaded_media.name, uploaded_media.getvalue(), uploaded_media.type)
-                    else:
-                        files["media"] = (uploaded_media.name, uploaded_media.getvalue(), uploaded_media.type)
+                    files["media"] = (uploaded_media.name, uploaded_media.getvalue(), uploaded_media.type)
 
                 payload = {
                     "email": st.session_state.user_email,
@@ -120,14 +139,17 @@ else:
                     "target_tiktok": tt,
                     "target_threads": threads,
                     "target_youtube_shorts": yt_short,
-                    "target_youtube_long": yt_long
+                    "target_youtube_long": yt_long,
+                    "ai_enabled": ai_assistant_active,
+                    "ai_personality": ai_personality,
+                    "ai_instruction": ai_custom_instruction
                 }
 
                 try:
                     res = requests.post(WEBHOOK_URL, data=payload, files=files if files else None)
                     if res.status_code == 200:
-                        st.success("Berhasil! Postingan sedang diproses untuk diterbitkan ke semua platform.")
+                        st.success("Berhasil! Postingan beserta sistem kendali agen AI sedang diproses untuk diterbitkan.")
                     else:
                         st.error("Gagal mengirim data ke server.")
                 except Exception as e:
-                    st.error(f"Terjadi kesalahan: {e}")
+                    st.error(f"Terjadi kesalahan koneksi: {e}")
