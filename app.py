@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-st.set_page_config(page_title="Rival Multi Shitpost", page_icon="🐱", layout="centered")
+st.set_page_config(page_title="Multishitpost", page_icon="🐱", layout="centered")
 
 WEBHOOK_URL = "6q7o25u4lz6eexaqiw1h8gyajvw3csxn@hook.eu1.make.com"
 
