@@ -3,7 +3,7 @@ import requests
 
 st.set_page_config(page_title="Rival Multi Shitpost", page_icon="🐱", layout="centered")
 
-WEBHOOK_URL = "https://hook.eu1.make.com/nqumlktukevpysnjc4q18org9ylcnc23"
+WEBHOOK_URL = "6q7o25u4lz6eexaqiw1h8gyajvw3csxn@hook.eu1.make.com"
 
 # Link langsung gambar kucing kamu
 CAT_IMAGE_URL = "https://i.postimg.cc/76xfQHs1/IMG-20260828-043405.jpg"
